@@ -7,7 +7,13 @@ let server: Handler;
 
 async function bootstrap(): Promise<Handler> {
   const app = await NestFactory.create(AppModule);
-  await app.init();
+
+  if (process.env.ENVIRONMENT == 'local') {
+    // TODO: API Gatewayの仕様と合わせるために一旦直書き
+    app.setGlobalPrefix('dev');
+    return await app.listen(3000)
+  }
+  await app.init()
 
   const expressApp = app.getHttpAdapter().getInstance();
   return serverlessExpress({ app: expressApp });
@@ -21,3 +27,7 @@ export const handler: Handler = async (
   server = server ?? (await bootstrap());
   return server(event, context, callback);
 };
+
+if (process.env.ENVIRONMENT == 'local') {
+  bootstrap()
+}
