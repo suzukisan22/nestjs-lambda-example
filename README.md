@@ -7,3 +7,15 @@
 ```
 - npx sls deploy --aws-profile hogehoge
 ```
+
+# ローカルでサーバーレス環境を動かす
+
+```
+$ npm run build
+$ npx serverless offline
+``
+
+# ローカルでnestを動かす
+```
+$ npm run start:dev
+```
